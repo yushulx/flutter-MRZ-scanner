@@ -23,7 +23,7 @@ class CameraManager {
   bool isDriverLicense = true;
   bool isFinished = false;
   StreamSubscription<FrameAvailabledEvent>? _frameAvailableStreamSubscription;
-  bool _isMobileWeb = false;
+  // bool _isMobileWeb = false;
 
   CameraManager(
       {required this.context,
@@ -195,26 +195,22 @@ class CameraManager {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       _cameras = await availableCameras();
-      int index = 0;
+      // int index = 0;
 
-      for (; index < _cameras.length; index++) {
-        CameraDescription description = _cameras[index];
-        if (description.name.toLowerCase().contains('back')) {
-          _isMobileWeb = true;
-          break;
-        }
-      }
+      // for (; index < _cameras.length; index++) {
+      //   CameraDescription description = _cameras[index];
+      //   if (description.name.toLowerCase().contains('back')) {
+      //     _isMobileWeb = true;
+      //     break;
+      //   }
+      // }
       if (_cameras.isEmpty) return;
 
       if (!kIsWeb) {
         toggleCamera(0);
       } else {
-        if (_isMobileWeb) {
-          if (_cameras.length > 1) {
-            toggleCamera(1);
-          } else {
-            toggleCamera(0);
-          }
+        if (_cameras.length > 1) {
+          toggleCamera(1);
         } else {
           toggleCamera(0);
         }
