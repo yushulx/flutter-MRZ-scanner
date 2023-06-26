@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ocr_sdk/mrz_line.dart';
 import 'package:flutter_ocr_sdk/mrz_parser.dart';
+import 'package:flutter_ocr_sdk/mrz_result.dart';
 
 import 'camera/camera_manager.dart';
 import 'global.dart';
@@ -35,9 +36,8 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   }
 
   void navigation(dynamic order) {
-    // Navigator.of(context).pop();
     List<MrzLine> area = order;
-    var information;
+    MrzResult? information;
     if (area.length == 2) {
       information = MRZ.parseTwoLines(area[0].text, area[1].text);
       information.lines = '${area[0].text}\n${area[1].text}';
@@ -49,7 +49,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => ResultPage(information: information),
+          builder: (context) => ResultPage(information: information!),
         ));
   }
 

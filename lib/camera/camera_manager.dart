@@ -210,7 +210,11 @@ class CameraManager {
         toggleCamera(0);
       } else {
         if (_isMobileWeb) {
-          toggleCamera(index);
+          if (_cameras.length > 1) {
+            toggleCamera(1);
+          } else {
+            toggleCamera(0);
+          }
         } else {
           toggleCamera(0);
         }
