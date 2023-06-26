@@ -191,6 +191,7 @@ class _HomePageState extends State<HomePage> {
     final image = Expanded(
         child: Image.asset(
       "images/image-mrz.png",
+      width: MediaQuery.of(context).size.width,
       fit: BoxFit.cover,
     ));
     return Scaffold(
