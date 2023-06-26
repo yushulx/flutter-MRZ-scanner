@@ -84,15 +84,6 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
 
   List<Widget> createCameraPreview() {
     if (_mobileCamera.controller != null && _mobileCamera.previewSize != null) {
-      const hint = Text(
-          'P<CANAMAN<<RITA<TANIA<<<<<<<<<<<<<<<<<<<<<<<\nERE82721<9CAN8412070M2405252<<<<<<<<<<<<<<08',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.white,
-          ));
       return [
         SizedBox(
             width: MediaQuery.of(context).size.width <
@@ -113,45 +104,6 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
             _mobileCamera.mrzLines,
           ),
         ),
-        Positioned(
-          top: 100,
-          left: 100,
-          right: 100,
-          bottom: 100,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.white,
-                width: 3.0,
-              ),
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.transparent,
-            ),
-          ),
-        ),
-        Positioned(
-          top: 300,
-          left: !kIsWeb && (Platform.isAndroid) ? 0 : 150,
-          child: !kIsWeb && (Platform.isAndroid)
-              ? Transform.rotate(
-                  angle: pi / 2, // 90 degrees in radians
-                  child: hint,
-                )
-              : hint,
-        ),
-        const Positioned(
-          left: 122,
-          right: 122,
-          bottom: 28,
-          child: Text('Powered by Dynamsoft',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.white,
-              )),
-        )
       ];
     } else {
       return [const CircularProgressIndicator()];
@@ -160,6 +112,16 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    const hint = Text(
+        'P<CANAMAN<<RITA<TANIA<<<<<<<<<<<<<<<<<<<<<<<\nERE82721<9CAN8412070M2405252<<<<<<<<<<<<<<08',
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.start,
+        style: TextStyle(
+          fontSize: 12,
+          color: Colors.white,
+        ));
+
     return WillPopScope(
         onWillPop: () async {
           return true;
@@ -188,6 +150,47 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
+              const Positioned(
+                left: 122,
+                right: 122,
+                bottom: 28,
+                child: Text('Powered by Dynamsoft',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    )),
+              ),
+              Positioned(
+                top: 100,
+                left: MediaQuery.of(context).size.width / 4,
+                right: MediaQuery.of(context).size.width / 4,
+                bottom: 100,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 3.0,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: MediaQuery.of(context).size.height / 3,
+                left: !kIsWeb && (Platform.isAndroid)
+                    ? 0
+                    : MediaQuery.of(context).size.width / 3,
+                child: !kIsWeb && (Platform.isAndroid)
+                    ? Transform.rotate(
+                        angle: pi / 2, // 90 degrees in radians
+                        child: hint,
+                      )
+                    : hint,
+              ),
             ],
           ),
         ));
