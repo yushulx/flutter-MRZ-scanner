@@ -161,32 +161,32 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                       color: Colors.white,
                     )),
               ),
+              // Positioned(
+              //   top: 100,
+              //   left: MediaQuery.of(context).size.width / 4,
+              //   right: MediaQuery.of(context).size.width / 4,
+              //   bottom: 100,
+              //   child: Container(
+              //     width: MediaQuery.of(context).size.width,
+              //     height: MediaQuery.of(context).size.height,
+              //     decoration: BoxDecoration(
+              //       border: Border.all(
+              //         color: Colors.white,
+              //         width: 3.0,
+              //       ),
+              //       borderRadius: BorderRadius.circular(10.0),
+              //       color: Colors.transparent,
+              //     ),
+              //   ),
+              // ),
               Positioned(
-                top: 100,
-                left: MediaQuery.of(context).size.width / 4,
-                right: MediaQuery.of(context).size.width / 4,
-                bottom: 100,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 3.0,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.transparent,
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: MediaQuery.of(context).size.height / 3,
+                bottom: (MediaQuery.of(context).size.height - 41 * 3) / 2,
                 left: !kIsWeb && (Platform.isAndroid)
                     ? 0
-                    : MediaQuery.of(context).size.width / 3,
+                    : (MediaQuery.of(context).size.width - 41 * 9) / 2,
                 child: !kIsWeb && (Platform.isAndroid)
                     ? Transform.rotate(
-                        angle: pi / 2, // 90 degrees in radians
+                        angle: pi / 2,
                         child: hint,
                       )
                     : hint,
