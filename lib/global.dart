@@ -10,6 +10,14 @@ Future<void> initMRZSDK() async {
   await mrzDetector.loadModel();
 }
 
+Color colorMainTheme = const Color(0xff1D1B20);
+Color colorOrange = const Color(0xffFE8E14);
+Color colorTitle = const Color(0xffF5F5F5);
+Color colorSelect = const Color(0xff757575);
+Color colorText = const Color(0xff888888);
+Color colorBackground = const Color(0xFF323234);
+Color colorSubtitle = const Color(0xffCCCCCC);
+
 Widget createOverlay(List<List<MrzLine>>? mrzResults) {
   return CustomPaint(
     painter: OverlayPainter(mrzResults),

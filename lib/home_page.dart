@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ocr_sdk/flutter_ocr_sdk_platform_interface.dart';
 import 'package:flutter_ocr_sdk/mrz_line.dart';
 import 'package:flutter_ocr_sdk/mrz_parser.dart';
+import 'package:flutter_ocr_sdk/mrz_result.dart';
 import 'result_page.dart';
 import 'utils.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -30,11 +31,11 @@ class _HomePageState extends State<HomePage> {
     final title = Row(
       children: [
         Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 30,
               left: 33,
             ),
-            child: Text('MRZ SCANNER',
+            child: const Text('MRZ SCANNER',
                 style: TextStyle(
                   fontSize: 36,
                   color: Colors.white,
@@ -45,8 +46,8 @@ class _HomePageState extends State<HomePage> {
     final description = Row(
       children: [
         Container(
-            padding: EdgeInsets.only(top: 6, left: 33, bottom: 44),
-            child: SizedBox(
+            padding: const EdgeInsets.only(top: 6, left: 33, bottom: 44),
+            child: const SizedBox(
               width: 271,
               child: Text(
                   'Recognizes MRZ code & extracts data from 1D-codes, passports, and visas.',
@@ -57,6 +58,14 @@ class _HomePageState extends State<HomePage> {
             ))
       ],
     );
+
+    void openResultPage(MrzResult information) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResultPage(information: information),
+          ));
+    }
 
     void scanImage() async {
       XFile? photo;
@@ -107,11 +116,7 @@ class _HomePageState extends State<HomePage> {
           }
         }
         if (finalArea != null) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ResultPage(information: information!),
-              ));
+          openResultPage(information!);
         }
       }
     }
@@ -128,14 +133,14 @@ class _HomePageState extends State<HomePage> {
               }
 
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CameraPage();
+                return const CameraPage();
               }));
             },
             child: Container(
               width: 150,
               height: 125,
               decoration: BoxDecoration(
-                color: Color(0xFFfe8e14),
+                color: colorOrange,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Column(
@@ -146,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                     width: 90,
                     height: 60,
                   ),
-                  Text(
+                  const Text(
                     "Camera Scan",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -162,7 +167,7 @@ class _HomePageState extends State<HomePage> {
               width: 150,
               height: 125,
               decoration: BoxDecoration(
-                color: Color(0xFF323234),
+                color: colorBackground,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Column(
@@ -173,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                     width: 90,
                     height: 60,
                   ),
-                  Text(
+                  const Text(
                     "Image Scan",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -194,7 +199,7 @@ class _HomePageState extends State<HomePage> {
           title,
           description,
           buttons,
-          SizedBox(
+          const SizedBox(
             height: 34,
           ),
           image

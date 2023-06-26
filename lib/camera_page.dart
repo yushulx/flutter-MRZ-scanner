@@ -84,7 +84,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
 
   List<Widget> createCameraPreview() {
     if (_mobileCamera.controller != null && _mobileCamera.previewSize != null) {
-      final hint = Text(
+      const hint = Text(
           'P<CANAMAN<<RITA<TANIA<<<<<<<<<<<<<<<<<<<<<<<\nERE82721<9CAN8412070M2405252<<<<<<<<<<<<<<08',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -141,7 +141,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                 )
               : hint,
         ),
-        Positioned(
+        const Positioned(
           left: 122,
           right: 122,
           bottom: 28,

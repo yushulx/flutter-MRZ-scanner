@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'global.dart';
+
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final bar = Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            padding: EdgeInsets.only(
-              top: 64,
-              bottom: 15,
-            ),
-            child: Text('About',
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Color(0xffF5F5F5),
-                )),
-          ),
-        ),
-      ],
-    );
-
     final title = Container(
-      padding: EdgeInsets.only(top: 50, left: 39, bottom: 5, right: 39),
+      padding: const EdgeInsets.only(top: 50, left: 39, bottom: 5, right: 39),
       child: Row(
         children: [
           Image.asset(
@@ -37,16 +22,16 @@ class AboutPage extends StatelessWidget {
 
     final version = Container(
       height: 40,
-      padding: EdgeInsets.only(left: 15, right: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15),
       child: Text(
         'App Version 2.2.20',
-        style: TextStyle(color: Color(0xff888888)),
+        style: TextStyle(color: colorText),
       ),
     );
 
     final description = Container(
-        padding: EdgeInsets.only(left: 44, right: 39),
-        child: Center(
+        padding: const EdgeInsets.only(left: 44, right: 39),
+        child: const Center(
           child: Text(
             'Recognizes MRZ code & extracts data from 1D-codes, passports, and visas. Supports TD-1, TD-2, TD-3, MRV-A, and MRV-B standards.',
             style: TextStyle(color: Colors.white, wordSpacing: 2),
@@ -55,15 +40,15 @@ class AboutPage extends StatelessWidget {
         ));
 
     final button = Container(
-      padding: EdgeInsets.only(top: 48, left: 91, right: 91, bottom: 69),
+      padding: const EdgeInsets.only(top: 48, left: 91, right: 91, bottom: 69),
       child: MaterialButton(
         minWidth: 208,
         height: 44,
-        color: Color(0xffFE8E14),
+        color: colorOrange,
         onPressed: () {
           launchUrlString('https://www.dynamsoft.com/downloads/');
         },
-        child: Text(
+        child: const Text(
           'GET FREE TRIAL SDK',
           style: TextStyle(color: Colors.white),
         ),
@@ -71,16 +56,16 @@ class AboutPage extends StatelessWidget {
     );
 
     final links = Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: 15,
         right: 15,
       ),
-      decoration: BoxDecoration(color: Colors.black),
+      decoration: const BoxDecoration(color: Colors.black),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 13, bottom: 15),
+            padding: const EdgeInsets.only(top: 13, bottom: 15),
             child: InkWell(
                 onTap: () {
                   launchUrlString(
@@ -88,18 +73,18 @@ class AboutPage extends StatelessWidget {
                 },
                 child: Text(
                   'Dynamsoft Label Recognizer overview >',
-                  style: TextStyle(color: Color(0xffFE8E14)),
+                  style: TextStyle(color: colorOrange),
                 )),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 13, bottom: 15),
+            padding: const EdgeInsets.only(top: 13, bottom: 15),
             child: InkWell(
                 onTap: () {
                   launchUrlString('https://www.dynamsoft.com/company/about/');
                 },
                 child: Text(
                   'Contact us >',
-                  style: TextStyle(color: Color(0xffFE8E14)),
+                  style: TextStyle(color: colorOrange),
                 )),
           ),
         ],
@@ -107,16 +92,24 @@ class AboutPage extends StatelessWidget {
     );
 
     return Scaffold(
+        appBar: AppBar(
+          title: Text('About',
+              style: TextStyle(
+                fontSize: 22,
+                color: colorTitle,
+              )),
+          centerTitle: true,
+          backgroundColor: colorMainTheme,
+        ),
         body: SingleChildScrollView(
             child: Column(
-      children: [
-        bar,
-        title,
-        version,
-        description,
-        button,
-        links,
-      ],
-    )));
+          children: [
+            title,
+            version,
+            description,
+            button,
+            links,
+          ],
+        )));
   }
 }

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dynamsoft MRZ Detection',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xff1D1B20),
+        scaffoldBackgroundColor: colorMainTheme,
       ),
       home: FutureBuilder<SharedPreferences>(
         future: loadData(),
