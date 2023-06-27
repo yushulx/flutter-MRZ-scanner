@@ -138,22 +138,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
-  file_selector:
-    dependency: "direct main"
-    description:
-      name: file_selector
-      sha256: "2b9acc3587127132da2a8d88d069172c49e32f977211cdf8f61f4b8e68e2a165"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.4"
-  file_selector_ios:
-    dependency: transitive
-    description:
-      name: file_selector_ios
-      sha256: "54542b6b35e3ced6246df5fae13cf0b879d14669d0fdff1a53a098f16e23328b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.1+4"
   file_selector_linux:
     dependency: transitive
     description:
@@ -178,14 +162,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.0"
-  file_selector_web:
-    dependency: transitive
-    description:
-      name: file_selector_web
-      sha256: a890ca514f053e976ad7632cd1e665e2c4543d5acd82ec352a8d5709c55d6363
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.1"
   file_selector_windows:
     dependency: transitive
     description:
@@ -253,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: b6951e25b795d053a6ba03af5f710069c99349de9341af95155d52665cb4607c
+      sha256: b9603755b35253ccfad4be0762bb74d5e8bf9ff75edebf0ac3beec24fac1c5b5
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.9"
+    version: "1.0.0"
   image_picker_android:
     dependency: transitive
     description:

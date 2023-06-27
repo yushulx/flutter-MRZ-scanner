@@ -9,7 +9,6 @@ import 'result_page.dart';
 import 'utils.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
-import 'package:file_selector/file_selector.dart';
 import 'dart:ui' as ui;
 import 'dart:typed_data';
 
@@ -68,16 +67,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     void scanImage() async {
-      XFile? photo;
-      if (kIsWeb || Platform.isAndroid || Platform.isIOS) {
-        photo = await picker.pickImage(source: ImageSource.gallery);
-      } else if (Platform.isWindows || Platform.isLinux) {
-        const XTypeGroup typeGroup = XTypeGroup(
-          label: 'images',
-          extensions: <String>['jpg', 'png', 'bmp', 'tiff', 'pdf', 'gif'],
-        );
-        photo = await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-      }
+      XFile? photo = await picker.pickImage(source: ImageSource.gallery);
 
       if (photo == null) {
         return;
