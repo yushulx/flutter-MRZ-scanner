@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'tab_page.dart';
 import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'global.dart';
 
 Future<void> main() async {
@@ -11,10 +10,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  Future<SharedPreferences> loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await initMRZSDK();
-    return prefs;
+  Future<int> loadData() async {
+    return await initMRZSDK();
   }
 
   @override
@@ -24,16 +21,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: colorMainTheme,
       ),
-      home: FutureBuilder<SharedPreferences>(
+      home: FutureBuilder<int>(
         future: loadData(),
-        builder:
-            (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
           if (!snapshot.hasData) {
             return const CircularProgressIndicator(); // Loading indicator
           }
           Future.microtask(() {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => TabPage()));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const TabPage()));
           });
           return Container();
         },
