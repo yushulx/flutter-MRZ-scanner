@@ -23,6 +23,7 @@ class CameraManager {
   bool isDriverLicense = true;
   bool isFinished = false;
   StreamSubscription<FrameAvailabledEvent>? _frameAvailableStreamSubscription;
+  int cameraIndex = 0;
   // bool _isMobileWeb = false;
 
   CameraManager(
@@ -37,6 +38,12 @@ class CameraManager {
 
   void initState() {
     initCamera();
+  }
+
+  void switchCamera() {
+    if (_cameras.length == 1) return;
+    cameraIndex = cameraIndex == 0 ? 1 : 0;
+    toggleCamera(cameraIndex);
   }
 
   Future<void> stopVideo() async {
@@ -207,12 +214,13 @@ class CameraManager {
       if (_cameras.isEmpty) return;
 
       if (!kIsWeb) {
-        toggleCamera(0);
+        toggleCamera(cameraIndex);
       } else {
         if (_cameras.length > 1) {
-          toggleCamera(1);
+          cameraIndex = 1;
+          toggleCamera(cameraIndex);
         } else {
-          toggleCamera(0);
+          toggleCamera(cameraIndex);
         }
       }
     } on CameraException catch (e) {
@@ -239,7 +247,7 @@ class CameraManager {
   }
 
   Future<void> toggleCamera(int index) async {
-    if (controller != null) controller!.dispose();
+    // if (controller != null) controller!.dispose();
 
     controller = CameraController(_cameras[index], ResolutionPreset.high);
     controller!.initialize().then((_) {

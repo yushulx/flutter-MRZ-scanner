@@ -20,19 +20,19 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
-  late CameraManager _mobileCamera;
+  late CameraManager _cameraManager;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    _mobileCamera = CameraManager(
+    _cameraManager = CameraManager(
         context: context,
         cbRefreshUi: refreshUI,
         cbIsMounted: isMounted,
         cbNavigation: navigation);
-    _mobileCamera.initState();
+    _cameraManager.initState();
   }
 
   void navigation(dynamic order) {
@@ -64,44 +64,45 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _mobileCamera.stopVideo();
+    _cameraManager.stopVideo();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (_mobileCamera.controller == null ||
-        !_mobileCamera.controller!.value.isInitialized) {
+    if (_cameraManager.controller == null ||
+        !_cameraManager.controller!.value.isInitialized) {
       return;
     }
 
     if (state == AppLifecycleState.inactive) {
-      _mobileCamera.controller!.dispose();
+      _cameraManager.controller!.dispose();
     } else if (state == AppLifecycleState.resumed) {
-      _mobileCamera.toggleCamera(0);
+      _cameraManager.toggleCamera(0);
     }
   }
 
   List<Widget> createCameraPreview() {
-    if (_mobileCamera.controller != null && _mobileCamera.previewSize != null) {
+    if (_cameraManager.controller != null &&
+        _cameraManager.previewSize != null) {
       return [
         SizedBox(
             width: MediaQuery.of(context).size.width <
                     MediaQuery.of(context).size.height
-                ? _mobileCamera.previewSize!.height
-                : _mobileCamera.previewSize!.width,
+                ? _cameraManager.previewSize!.height
+                : _cameraManager.previewSize!.width,
             height: MediaQuery.of(context).size.width <
                     MediaQuery.of(context).size.height
-                ? _mobileCamera.previewSize!.width
-                : _mobileCamera.previewSize!.height,
-            child: _mobileCamera.getPreview()),
+                ? _cameraManager.previewSize!.width
+                : _cameraManager.previewSize!.height,
+            child: _cameraManager.getPreview()),
         Positioned(
           top: 0.0,
           right: 0.0,
           bottom: 0,
           left: 0.0,
           child: createOverlay(
-            _mobileCamera.mrzLines,
+            _cameraManager.mrzLines,
           ),
         ),
       ];
@@ -136,8 +137,8 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
           ),
           body: Stack(
             children: <Widget>[
-              if (_mobileCamera.controller != null &&
-                  _mobileCamera.previewSize != null)
+              if (_cameraManager.controller != null &&
+                  _cameraManager.previewSize != null)
                 Positioned(
                   top: 0,
                   right: 0,
@@ -192,6 +193,16 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                     : hint,
               ),
             ],
+          ),
+          floatingActionButton: Opacity(
+            opacity: 0.5,
+            child: FloatingActionButton(
+              backgroundColor: Colors.black,
+              child: const Icon(Icons.flip_camera_android),
+              onPressed: () {
+                _cameraManager.switchCamera();
+              },
+            ),
           ),
         ));
   }
