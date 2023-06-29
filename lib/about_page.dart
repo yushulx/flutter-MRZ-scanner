@@ -20,17 +20,8 @@ class AboutPage extends StatelessWidget {
       ),
     );
 
-    final version = Container(
-      height: 40,
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      child: Text(
-        'App Version 2.2.20',
-        style: TextStyle(color: colorText),
-      ),
-    );
-
     final description = Container(
-        padding: const EdgeInsets.only(left: 44, right: 39),
+        padding: const EdgeInsets.only(left: 44, right: 39, top: 18),
         child: const Center(
           child: Text(
             'Recognizes MRZ code & extracts data from 1D-codes, passports, and visas. Supports TD-1, TD-2, TD-3, MRV-A, and MRV-B standards.',
@@ -55,41 +46,67 @@ class AboutPage extends StatelessWidget {
       ),
     );
 
-    final links = Container(
+    final links = Padding(
       padding: const EdgeInsets.only(
         left: 15,
         right: 15,
       ),
-      decoration: const BoxDecoration(color: Colors.black),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 13, bottom: 15),
-            child: InkWell(
-                onTap: () {
-                  launchUrlString(
-                      'https://www.dynamsoft.com/label-recognition/overview/');
-                },
-                child: Text(
-                  'Dynamsoft Label Recognizer overview >',
-                  style: TextStyle(color: colorOrange),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 13, bottom: 15),
-            child: InkWell(
-                onTap: () {
-                  launchUrlString('https://www.dynamsoft.com/company/about/');
-                },
-                child: Text(
-                  'Contact us >',
-                  style: TextStyle(color: colorOrange),
-                )),
-          ),
-        ],
+      child: Container(
+        width: MediaQuery.of(context).size.width - 30,
+        padding: const EdgeInsets.only(left: 20),
+        decoration: const BoxDecoration(color: Colors.black),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 13, bottom: 15),
+              child: InkWell(
+                  onTap: () {
+                    launchUrlString(
+                        'https://www.dynamsoft.com/label-recognition/overview/');
+                  },
+                  child: Text(
+                    'Dynamsoft Label Recognizer overview >',
+                    style: TextStyle(color: colorOrange, fontSize: 16),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 13, bottom: 15),
+              child: InkWell(
+                  onTap: () {
+                    launchUrlString('https://www.dynamsoft.com/company/about/');
+                  },
+                  child: Text(
+                    'Contact us >',
+                    style: TextStyle(color: colorOrange, fontSize: 16),
+                  )),
+            ),
+          ],
+        ),
       ),
     );
+
+    final version = Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+        child: Container(
+          width: MediaQuery.of(context).size.width - 30,
+          height: 49,
+          padding: const EdgeInsets.only(left: 20, right: 24),
+          decoration: const BoxDecoration(color: Colors.black),
+          child: Row(
+            children: [
+              const Text(
+                'App Version',
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              Expanded(child: Container()),
+              Text(
+                '2.2.20',
+                style: TextStyle(color: colorText, fontSize: 15),
+              )
+            ],
+          ),
+        ));
 
     return Scaffold(
         appBar: AppBar(
@@ -103,13 +120,7 @@ class AboutPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
             child: Column(
-          children: [
-            title,
-            version,
-            description,
-            button,
-            links,
-          ],
+          children: [title, description, button, links, version],
         )));
   }
 }
