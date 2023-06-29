@@ -16,6 +16,19 @@ When the application is executed on desktop browsers, the camera frame appears m
 
 ![flutter camera issue for web](https://github.com/yushulx/flutter-MRZ-scanner/assets/2202306/7bdd7e57-7340-4149-a081-75f4622851aa)
 
+A temporary workaround is to disable the camera flip code in [https://github.com/flutter/packages/blob/main/packages/camera/camera_web/lib/src/camera_web.dart](https://github.com/flutter/packages/blob/main/packages/camera/camera_web/lib/src/camera_web.dart):
+
+```dart
+// final bool isBackCamera = getLensDirection() == CameraLensDirection.back;
+
+// Flip the picture horizontally if it is not taken from a back camera.
+// if (!isBackCamera) {
+//   canvas.context2D
+//     ..translate(videoWidth, 0)
+//     ..scale(-1, 1);
+// }
+```
+
 
 ## Getting Started
 1. Apply for a [30-day trial license](https://www.dynamsoft.com/customer/license/trialLicense/?product=dlr) and replace the license key in the `global.dart` file with your own:
