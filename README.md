@@ -34,9 +34,10 @@ A temporary workaround is to disable the camera flip code in [https://github.com
 1. Apply for a [30-day trial license](https://www.dynamsoft.com/customer/license/trialLicense/?product=dlr) and replace the license key in the `global.dart` file with your own:
 
     ```dart
-    Future<void> initMRZSDK() async {
+    Future<int> initMRZSDK() async {
         await mrzDetector.init(
             "LICENSE-KEY");
+        return await mrzDetector.loadModel() ?? -1;
     }
     ```
 
