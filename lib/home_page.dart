@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:flutter_ocr_sdk/flutter_ocr_sdk_platform_interface.dart';
 import 'package:flutter_ocr_sdk/mrz_line.dart';
 import 'package:flutter_ocr_sdk/mrz_parser.dart';
@@ -71,6 +72,12 @@ class _HomePageState extends State<HomePage> {
 
       if (photo == null) {
         return;
+      }
+
+      if (Platform.isAndroid || Platform.isIOS) {
+        File rotatedImage =
+            await FlutterExifRotation.rotateImage(path: photo.path);
+        photo = XFile(rotatedImage.path);
       }
 
       Uint8List fileBytes = await photo.readAsBytes();
