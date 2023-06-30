@@ -26,6 +26,65 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final picker = ImagePicker();
 
+  void openResultPage(MrzResult information) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultPage(information: information),
+        ));
+  }
+
+  void scanImage() async {
+    XFile? photo = await picker.pickImage(source: ImageSource.gallery);
+
+    if (photo == null) {
+      return;
+    }
+
+    if (Platform.isAndroid || Platform.isIOS) {
+      File rotatedImage =
+          await FlutterExifRotation.rotateImage(path: photo.path);
+      photo = XFile(rotatedImage.path);
+    }
+
+    Uint8List fileBytes = await photo.readAsBytes();
+
+    ui.Image image = await decodeImageFromList(fileBytes);
+
+    ByteData? byteData =
+        await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+    if (byteData != null) {
+      List<List<MrzLine>>? results = await mrzDetector.recognizeByBuffer(
+          byteData.buffer.asUint8List(),
+          image.width,
+          image.height,
+          byteData.lengthInBytes ~/ image.height,
+          ImagePixelFormat.IPF_ARGB_8888.index);
+      List<MrzLine>? finalArea;
+      var information;
+      if (results != null && results.isNotEmpty) {
+        for (List<MrzLine> area in results) {
+          if (area.length == 2) {
+            finalArea = area;
+            information = MRZ.parseTwoLines(area[0].text, area[1].text);
+            information.lines = '${area[0].text}\n${area[1].text}';
+            break;
+          } else if (area.length == 3) {
+            finalArea = area;
+            information =
+                MRZ.parseThreeLines(area[0].text, area[1].text, area[2].text);
+            information.lines =
+                '${area[0].text}\n${area[1].text}\n${area[2].text}';
+            break;
+          }
+        }
+      }
+      if (finalArea != null) {
+        openResultPage(information!);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final title = Row(
@@ -58,65 +117,6 @@ class _HomePageState extends State<HomePage> {
             ))
       ],
     );
-
-    void openResultPage(MrzResult information) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ResultPage(information: information),
-          ));
-    }
-
-    void scanImage() async {
-      XFile? photo = await picker.pickImage(source: ImageSource.gallery);
-
-      if (photo == null) {
-        return;
-      }
-
-      if (Platform.isAndroid || Platform.isIOS) {
-        File rotatedImage =
-            await FlutterExifRotation.rotateImage(path: photo.path);
-        photo = XFile(rotatedImage.path);
-      }
-
-      Uint8List fileBytes = await photo.readAsBytes();
-
-      ui.Image image = await decodeImageFromList(fileBytes);
-
-      ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.rawRgba);
-      if (byteData != null) {
-        List<List<MrzLine>>? results = await mrzDetector.recognizeByBuffer(
-            byteData.buffer.asUint8List(),
-            image.width,
-            image.height,
-            byteData.lengthInBytes ~/ image.height,
-            ImagePixelFormat.IPF_ARGB_8888.index);
-        List<MrzLine>? finalArea;
-        var information;
-        if (results != null && results.isNotEmpty) {
-          for (List<MrzLine> area in results) {
-            if (area.length == 2) {
-              finalArea = area;
-              information = MRZ.parseTwoLines(area[0].text, area[1].text);
-              information.lines = '${area[0].text}\n${area[1].text}';
-              break;
-            } else if (area.length == 3) {
-              finalArea = area;
-              information =
-                  MRZ.parseThreeLines(area[0].text, area[1].text, area[2].text);
-              information.lines =
-                  '${area[0].text}\n${area[1].text}\n${area[2].text}';
-              break;
-            }
-          }
-        }
-        if (finalArea != null) {
-          openResultPage(information!);
-        }
-      }
-    }
 
     final buttons = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
