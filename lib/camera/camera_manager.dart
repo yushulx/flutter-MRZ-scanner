@@ -109,7 +109,7 @@ class CameraManager {
 
   void processId(
       Uint8List bytes, int width, int height, int stride, int format) {
-    cbRefreshUi();
+    // cbRefreshUi();
     mrzDetector
         .recognizeByBuffer(bytes, width, height, stride, format)
         .then((results) {
@@ -117,7 +117,7 @@ class CameraManager {
 
       if (MediaQuery.of(context).size.width <
           MediaQuery.of(context).size.height) {
-        if (Platform.isAndroid) {
+        if (Platform.isAndroid && results.isNotEmpty) {
           results = rotate90mrz(results, previewSize!.height.toInt());
         }
       }
