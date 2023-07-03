@@ -6,6 +6,7 @@ import 'package:flutter_ocr_sdk/flutter_ocr_sdk_platform_interface.dart';
 import 'package:flutter_ocr_sdk/mrz_line.dart';
 import 'package:flutter_ocr_sdk/mrz_parser.dart';
 import 'package:flutter_ocr_sdk/mrz_result.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'result_page.dart';
 import 'utils.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -185,12 +186,12 @@ class _HomePageState extends State<HomePage> {
             ))
       ],
     );
-    final image = Expanded(
-        child: Image.asset(
+
+    final image = Image.asset(
       "images/image-mrz.png",
       width: MediaQuery.of(context).size.width,
       fit: BoxFit.cover,
-    ));
+    );
     return Scaffold(
       body: Column(
         children: [
@@ -200,7 +201,41 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 34,
           ),
-          image
+          Expanded(
+              child: Stack(
+            children: [
+              Positioned.fill(
+                child: image,
+              ),
+              if (!isLicenseValid)
+                Opacity(
+                  opacity: 0.8,
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      color: const Color(0xffFF1A1A),
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: InkWell(
+                          onTap: () {
+                            launchUrlString(
+                                'https://www.dynamsoft.com/customer/license/trialLicense?product=dlr');
+                          },
+                          child: const Row(
+                            children: [
+                              Icon(Icons.warning_amber_rounded,
+                                  color: Colors.white, size: 20),
+                              Text(
+                                "  License expired! Renew your license ->",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ))),
+                )
+            ],
+          ))
         ],
       ),
     );

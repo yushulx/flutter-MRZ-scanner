@@ -70,6 +70,10 @@ class AboutPage extends StatelessWidget {
                     style: TextStyle(color: colorOrange, fontSize: 16),
                   )),
             ),
+            Container(
+              height: 1,
+              color: colorMainTheme,
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 13, bottom: 15),
               child: InkWell(
@@ -96,7 +100,7 @@ class AboutPage extends StatelessWidget {
           child: Row(
             children: [
               const Text(
-                'App Version',
+                'SDK Version',
                 style: TextStyle(color: Colors.white, fontSize: 14),
               ),
               Expanded(child: Container()),
@@ -104,6 +108,29 @@ class AboutPage extends StatelessWidget {
                 '2.2.20',
                 style: TextStyle(color: colorText, fontSize: 15),
               )
+            ],
+          ),
+        ));
+
+    final sourceCode = Padding(
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 1),
+        child: Container(
+          width: MediaQuery.of(context).size.width - 30,
+          height: 49,
+          padding: const EdgeInsets.only(left: 20, right: 24),
+          decoration: const BoxDecoration(color: Colors.black),
+          child: Row(
+            children: [
+              InkWell(
+                  onTap: () {
+                    launchUrlString(
+                        'https://github.com/yushulx/flutter-MRZ-scanner');
+                  },
+                  child: const Text(
+                    'App Source Code >',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  )),
+              Expanded(child: Container()),
             ],
           ),
         ));
@@ -120,7 +147,7 @@ class AboutPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
             child: Column(
-          children: [title, description, button, links, version],
+          children: [title, description, button, links, version, sourceCode],
         )));
   }
 }

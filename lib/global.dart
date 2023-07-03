@@ -3,10 +3,13 @@ import 'package:flutter_ocr_sdk/flutter_ocr_sdk.dart';
 import 'package:flutter_ocr_sdk/mrz_line.dart';
 
 FlutterOcrSdk mrzDetector = FlutterOcrSdk();
+bool isLicenseValid = false;
 
 Future<int> initMRZSDK() async {
-  await mrzDetector.init(
+  int? ret = await mrzDetector.init(
       "DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==");
+
+  if (ret == 0) isLicenseValid = true;
   return await mrzDetector.loadModel() ?? -1;
 }
 
