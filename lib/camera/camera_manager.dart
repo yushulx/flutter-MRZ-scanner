@@ -24,7 +24,7 @@ class CameraManager {
   bool isFinished = false;
   StreamSubscription<FrameAvailabledEvent>? _frameAvailableStreamSubscription;
   int cameraIndex = 0;
-  // bool _isMobileWeb = false;
+  bool _isWebFrameStarted = false;
 
   CameraManager(
       {required this.context,
@@ -40,8 +40,25 @@ class CameraManager {
     initCamera();
   }
 
+  void waitToStop() {
+    if (_isWebFrameStarted) {
+      Future.delayed(const Duration(milliseconds: 10), () {
+        waitToStop();
+      });
+    }
+  }
+
   void switchCamera() {
     if (_cameras.length == 1) return;
+    isFinished = true;
+
+    if (kIsWeb) {
+      // wait for the previous camera to stop
+      if (_isWebFrameStarted) {
+        waitToStop();
+      }
+    }
+
     cameraIndex = cameraIndex == 0 ? 1 : 0;
     toggleCamera(cameraIndex);
   }
@@ -60,20 +77,17 @@ class CameraManager {
   }
 
   Future<void> webCamera() async {
-    if (controller == null || isFinished || cbIsMounted() == false) return;
+    _isWebFrameStarted = true;
+    while (!(controller == null || isFinished || cbIsMounted() == false)) {
+      XFile file = await controller!.takePicture();
+      var results = await mrzDetector.recognizeByFile(file.path);
+      if (results == null || !cbIsMounted()) return;
 
-    XFile file = await controller!.takePicture();
-
-    var results = await mrzDetector.recognizeByFile(file.path);
-    if (results == null || !cbIsMounted()) return;
-
-    mrzLines = results;
-    cbRefreshUi();
-    handleMrz(results);
-
-    if (!isFinished) {
-      webCamera();
+      mrzLines = results;
+      cbRefreshUi();
+      handleMrz(results);
     }
+    _isWebFrameStarted = false;
   }
 
   void handleMrz(List<List<MrzLine>> results) {
