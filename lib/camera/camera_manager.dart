@@ -40,30 +40,32 @@ class CameraManager {
     initCamera();
   }
 
-  void waitToStop() {
-    if (_isWebFrameStarted) {
-      Future.delayed(const Duration(milliseconds: 10), () {
-        waitToStop();
-      });
-    }
-  }
-
-  void switchCamera() {
+  Future<void> switchCamera() async {
     if (_cameras.length == 1) return;
     isFinished = true;
 
     if (kIsWeb) {
-      // wait for the previous camera to stop
-      if (_isWebFrameStarted) {
-        waitToStop();
-      }
+      await waitForStop();
     }
 
     cameraIndex = cameraIndex == 0 ? 1 : 0;
     toggleCamera(cameraIndex);
   }
 
+  Future<void> waitForStop() async {
+    while (true) {
+      if (_isWebFrameStarted == false) {
+        break;
+      }
+
+      await Future.delayed(const Duration(milliseconds: 10));
+    }
+  }
   Future<void> stopVideo() async {
+    isFinished = true;
+    if (kIsWeb) {
+      await waitForStop();
+    }
     if (controller == null) return;
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       await controller!.stopImageStream();
